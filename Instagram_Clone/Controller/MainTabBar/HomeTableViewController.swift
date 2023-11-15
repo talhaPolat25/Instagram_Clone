@@ -10,7 +10,6 @@ import FirebaseFirestore
 import FirebaseAuth
 class HomeTableViewController: UITableViewController {
     let reuseIdentifier = "PostCell"
-    var postCount = 0
     var sharedPhotos = [SharedPhoto]()
     let firestore = Firestore.firestore()
     var user : User?
@@ -47,7 +46,8 @@ class HomeTableViewController: UITableViewController {
             print("-------------Nil geldi babaaa")
         }
         guard let userID = Auth.auth().currentUser?.uid else {return }
-            self.firestore.collection("SharedPhotos").document(userID).collection("MyPhotos").order(by: "AddingDate", descending: false).addSnapshotListener { snapshot, error in
+            
+        self.firestore.collection("SharedPhotos").document(userID).collection("MyPhotos").order(by: "AddingDate", descending: false).addSnapshotListener { snapshot, error in
             
             if let error = error {
                 print("An error occured : ",error.localizedDescription)
@@ -66,8 +66,8 @@ class HomeTableViewController: UITableViewController {
                         let photo = SharedPhoto(uploaderUser:user, photoData: photoData)
                             self.sharedPhotos.append(photo)
                         
-                    }
-            }
+                    }//if end
+            }//for end
                 DispatchQueue.main.async {
                     self.sharedPhotos = self.sharedPhotos.reversed()
                     self.tableView.reloadData()

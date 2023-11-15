@@ -9,4 +9,10 @@ import UIKit
 
 class PhotoCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var imgPhoto: UIImageView!
+    
+    override class func awakeFromNib() {
+        super.awakeFromNib()
+        print("Çalıştı")
+    }
 }

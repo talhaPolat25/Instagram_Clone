@@ -20,22 +20,20 @@ class ProfileCollectionVC: UICollectionViewController {
         collectionView.register(UINib(nibName: "ProfileHeaderView", bundle: nil), forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "ProfileHeaderView")
         self.collectionView.register(UINib(nibName: "PhotoChoosingCell", bundle: nil), forCellWithReuseIdentifier: "photoCvc")
         GetUserInfo()
-        
+        print("dikatt ---------------------",user?.Username)
     }
     
 
    private func GetUserInfo () {
-        guard let currentUserID = Auth.auth().currentUser?.uid else{return}
+       guard let userId = user?.UserID ?? Auth.auth().currentUser?.uid else {return}
         
-        Firestore.firestore().collection("Users").document(currentUserID).getDocument { snapshot, error in
+        Firestore.firestore().collection("Users").document(userId).getDocument { snapshot, error in
             self.user = decodeFirebase(type:User.self, snapshot: snapshot)
             self.getSharedPhotos()
         }
     }
     private func GetUser(){
-        guard let userId = Auth.auth().currentUser?.uid else {
-            print("Burası")
-            return}
+        guard let userId = user?.UserID ?? Auth.auth().currentUser?.uid else {return}
         
         self.firestore.collection("Users").document(userId).getDocument { snapshot, error in
             if let error = error{
@@ -50,10 +48,8 @@ class ProfileCollectionVC: UICollectionViewController {
     }
        
      func getSharedPhotos(){
-        
-        guard let userId = Auth.auth().currentUser?.uid else {
-            print("Burası")
-            return}
+         guard let userId = user?.UserID ?? Auth.auth().currentUser?.uid else {return}
+       
         
         Firestore.firestore().collection("SharedPhotos").document(userId).collection("MyPhotos").order(by: "AddingDate", descending: false).addSnapshotListener { snapshot, error in
             
@@ -68,11 +64,9 @@ class ProfileCollectionVC: UICollectionViewController {
                     let photoData = documentChange.document.data()
                     guard let userID = photoData["UserID"] as? String else{return}
                     
-                    
-                        
                     let photo = SharedPhoto(uploaderUser:self.user!, photoData: photoData)
                         self.myPhotos.append(photo)
-                    }
+                    }//if end
                 }
                 self.myPhotos = self.myPhotos.reversed()
                 self.collectionView.reloadData()

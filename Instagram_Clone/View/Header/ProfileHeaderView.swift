@@ -19,9 +19,12 @@ class ProfileHeaderView: UICollectionViewCell {
     @IBOutlet weak var stackSections: UIStackView!
     var user : User?{
         didSet{
-            guard let url = URL(string: user!.profilePhotoUrl) else {return}
+            guard let url = URL(string: user!.ProfilePhotoUrl) else {return}
             self.imgProfilePhoto.sd_setImage(with: url)
-            txtUsername.text = user?.username
+            txtUsername.text = user?.Username
+            txtFollowers.text = "\(user?.FollowersCount ?? 0)"
+            txtFollowing.text = "\(user?.FollowingCount ?? 0)"
+            txtShare.text = "\(user?.PostCount ?? 0)"
             print("Hayırlı olsun brom")
         }
     }
@@ -30,14 +33,21 @@ class ProfileHeaderView: UICollectionViewCell {
         super.awakeFromNib()
        // backgroundColor = .darkGray
         // Initialization code
+        configureHeaderUI()
+        //  setProfilePhoto()
+    }
+    
+    fileprivate func configureHeaderUI(){
         imgProfilePhoto.layer.cornerRadius = imgProfilePhoto.frame.width / 2
+        imgProfilePhoto.clipsToBounds = true
+        imgProfilePhoto.contentMode = .scaleAspectFill
+        
         stackSections.layer.borderColor = UIColor.lightGray.cgColor
         stackSections.layer.borderWidth = 2
         
         btnProfilDuzenle.layer.borderColor = UIColor.lightGray.cgColor
         btnProfilDuzenle.layer.borderWidth = 2
         btnProfilDuzenle.layer.cornerRadius = 5
-        //  setProfilePhoto()
     }
    /* override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,6 +60,7 @@ class ProfileHeaderView: UICollectionViewCell {
     }
     */
     private func setProfilePhoto(){
+        
         guard let userID = Auth.auth().currentUser?.uid else{return}
         
         Firestore.firestore().collection("Users").document(userID).getDocument { snapshot, error in

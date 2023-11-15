@@ -8,5 +8,9 @@
 import UIKit
 
 class PhotoChoosingCollectionViewCell: UICollectionViewCell {
+    @IBOutlet  var imgPhoto: UIImageView!
+    
+    
+    
     
 }

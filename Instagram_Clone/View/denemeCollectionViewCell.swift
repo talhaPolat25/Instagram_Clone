@@ -9,4 +9,7 @@ import UIKit
 
 class denemeCollectionViewCell: UICollectionViewCell {
     
+    override class func awakeFromNib() {
+        super.awakeFromNib()
+    }
 }

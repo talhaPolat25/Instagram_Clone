@@ -10,22 +10,24 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="photoCell" translatesAutoresizingMaskIntoConstraints="NO" id="gTV-IL-0wX" customClass="PhotoChoosingCell" customModule="Instagram_Clone" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="photoCvc" id="gTV-IL-0wX" customClass="PhotoChoosingCell" customModule="Instagram_Clone" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Jny-Dx-D16">
-                        <rect key="frame" x="0.0" y="0.0" width="110" height="100"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jny-Dx-D16">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                     </imageView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="Jny-Dx-D16" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="MO4-ka-juv"/>
-                <constraint firstAttribute="bottom" secondItem="Jny-Dx-D16" secondAttribute="bottom" id="QPf-gk-8Dc"/>
-                <constraint firstAttribute="trailing" secondItem="Jny-Dx-D16" secondAttribute="trailing" id="R1S-8h-SWg"/>
-                <constraint firstItem="Jny-Dx-D16" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="dXz-Fx-ImT"/>
+                <constraint firstItem="Jny-Dx-D16" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="GRE-TZ-ols"/>
+                <constraint firstAttribute="bottom" secondItem="Jny-Dx-D16" secondAttribute="bottom" id="X7r-LO-PEo"/>
+                <constraint firstItem="Jny-Dx-D16" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="b2g-RQ-f9L"/>
+                <constraint firstAttribute="trailing" secondItem="Jny-Dx-D16" secondAttribute="trailing" id="wqw-mF-BUZ"/>
             </constraints>
             <size key="customSize" width="134" height="126"/>
             <connections>

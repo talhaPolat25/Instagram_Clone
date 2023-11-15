@@ -36,10 +36,11 @@ class SingUpVC: UIViewController {
         //We take photo from device with UIImagePickerController
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
-        present(pickerController, animated: true)
+        self.present(pickerController, animated: true)
     }
     @IBAction func isFormValid(_ sender: UITextField) {
-        if (txtEmail.text?.count ?? 0) > 0  && txtUsername.text!.count>0 && txtPassword.text!.count>0{
+        if (txtEmail.text?.count ?? 0) > 0  && txtUsername.text!.count>0 && txtPassword.text!.count>0 &&
+            imgAddImage.image != UIImage(systemName: "person.crop.circle.fill.badge.plus") && txtEmail.isValidEmail(){
             btnSignUp.isEnabled = true
         }else{
             btnSignUp.isEnabled = false
@@ -49,7 +50,9 @@ class SingUpVC: UIViewController {
     @IBAction func btnSignUpClicked(_ sender: UIButton) {
         guard let email = txtEmail.text ,
         let pasword = txtPassword.text ,
-        let username = txtUsername.text else{return}
+        let username = txtUsername.text,
+        let image = imgAddImage.image,
+        image != UIImage(systemName: "person.crop.circle.fill.badge.plus")  else{return}
             
         Auth.auth().createUser(withEmail: email, password: pasword){(result,error) in
             if let error = error{
@@ -61,7 +64,7 @@ class SingUpVC: UIViewController {
             guard let userID = result?.user.uid else{return}
             
             let ref = Storage.storage().reference(withPath: "/ProfilePhotos/\(imageID)")
-            let imgData = self.imgAddImage.image?.jpegData(compressionQuality: 0.8) ?? Data()
+            let imgData = image.jpegData(compressionQuality: 0.8) ?? Data()
             ref.putData(imgData) { _,error in
                 if let error = error {
                     print("An error occured when put data to storage :",error.localizedDescription)
@@ -76,11 +79,14 @@ class SingUpVC: UIViewController {
                     }
                     let userInfo = ["UserID":userID,
                                     "ProfilePhotoUrl":url?.absoluteString ?? "",
-                                    "Username":username
+                                    "Username":username,
+                                    "FollowingCount":0,
+                                    "FollowersCount":0,
+                                    "PostCount":0
                     ]
                     Firestore.firestore().collection("Users").document(userID).setData(userInfo){error in
                         if let error = error {
-                            print("An error occured when add the user's info")
+                            print("An error occured when add the user's info: ",error.localizedDescription)
                             return
                         }
                         print("Registration is completed")
@@ -103,7 +109,7 @@ class SingUpVC: UIViewController {
 extension SingUpVC:UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        print("Choosing")
+        self.dismiss(animated: true)
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.originalImage] as? UIImage

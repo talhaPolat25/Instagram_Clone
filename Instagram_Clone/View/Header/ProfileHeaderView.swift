@@ -19,6 +19,16 @@ class ProfileHeaderView: UICollectionViewCell {
     @IBOutlet weak var stackSections: UIStackView!
     var user : User?{
         didSet{
+            guard let currentUserID = Auth.auth().currentUser?.uid,
+                  let showedUserID = user?.UserID else{return}
+            
+            if currentUserID != showedUserID {
+                btnProfilDuzenle.setTitle("Takip Et", for: .normal)
+                btnProfilDuzenle.setTitleColor(.white, for: .normal)
+                btnProfilDuzenle.backgroundColor = UIColor(red: 20/255, green: 15/255, blue: 240/255, alpha: 1)
+                btnProfilDuzenle.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
+            }
+            
             guard let url = URL(string: user!.ProfilePhotoUrl) else {return}
             self.imgProfilePhoto.sd_setImage(with: url)
             txtUsername.text = user?.Username
@@ -95,5 +105,10 @@ class ProfileHeaderView: UICollectionViewCell {
             }.resume() */
            
         }
+    }
+    
+    @IBAction func BtnProfileClicked(_ sender: UIButton) {
+        print("Çalışıyor")
+        
     }
 }
